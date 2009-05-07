@@ -14,7 +14,7 @@
  * likely to be removed in the future...
  *
  * CVS_ID:
- * $Id: func_avhrr2hdf.c,v 1.1 2009-05-07 11:13:32 steingod Exp $
+ * $Id: func_avhrr2hdf.c,v 1.2 2009-05-07 13:40:45 steingod Exp $
  */ 
 
 #include <avhrr2hdf.h>
@@ -57,17 +57,11 @@ int calc_avhrr_channels(fmio_img img, float *ch1, float *ch2, float *ch3b,
     for (i=0;i<img.numtrack;i++) {
 	angreq.subtrack.gpos[i].lat = img.track[i].latitude;
 	angreq.subtrack.gpos[i].lon = img.track[i].longitude;
-	/*
-	printf("%4d %6.2f %6.2f - %6.2f %6.2f\n", 
-	i,
-	angreq.subtrack.gpos[i].lat,angreq.subtrack.gpos[i].lon,
-	img.track[i].latitude,img.track[i].longitude
-	);
-	*/
     }
     angreq.subtrack.npoints = img.numtrack;
 
     fprintf(stdout,"\n\tCalculating AVHRR channels...\n");
+    fmlogmsg(where,"Unpacking AVHRR channels and estimating observation geometry.");
 
     /* Calculate angles for each ANGPIXDIST'th column and row */
     angarrX = img.iw/ANGPIXDIST;
@@ -87,7 +81,6 @@ int calc_avhrr_channels(fmio_img img, float *ch1, float *ch2, float *ch3b,
 		    "Observation geometry estimation failed for pixel %d, %d",
 		    xc, yc);
 		}
-		printf("%04d %04d %6.2f %6.2f\n",xc,yc,angarr[j].soz,angarr[j].saz);
 	    }
 	}
     }
