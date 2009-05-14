@@ -14,7 +14,7 @@
  * likely to be removed in the future...
  *
  * CVS_ID:
- * $Id: func_avhrr2hdf.c,v 1.2 2009-05-07 13:40:45 steingod Exp $
+ * $Id: func_avhrr2hdf.c,v 1.3 2009-05-14 12:06:33 steingod Exp $
  */ 
 
 #include <avhrr2hdf.h>
@@ -60,7 +60,6 @@ int calc_avhrr_channels(fmio_img img, float *ch1, float *ch2, float *ch3b,
     }
     angreq.subtrack.npoints = img.numtrack;
 
-    fprintf(stdout,"\n\tCalculating AVHRR channels...\n");
     fmlogmsg(where,"Unpacking AVHRR channels and estimating observation geometry.");
 
     /* Calculate angles for each ANGPIXDIST'th column and row */
@@ -169,13 +168,14 @@ int create_HDF_avhrr_file(PRODhead avhrrhead, char *outfile, float *ch1,
 	float *ch2, float *ch3b, float *ch4,
 	float *ch5, float *ch3a, float *soz, float *saz) {
 
+    char *where="create_HDF_avhrr_file";
     short status;
     int i, imgsize;
     osihdf avhrrh5p;
     osi_dtype avhrr_ft[AVHRRH5P_LEVS];
     char *avhrr_desc[AVHRRH5P_LEVS];
 
-    fprintf(stdout,"\n\tCreating HDF file with AVHRR fields...\n");
+    fmlogmsg(where,"Creating HDF file with AVHRR fields.");
 
     /* Initiate HDF5 object for AVHRR product */
 
